@@ -2,25 +2,24 @@
 #include <SPI.h>
 #include "RF24.h"
 #define RF_TIMEOUT 1000 * 1000 * 30
+
 #define RTADIO_IN 7
 #define RADIO_OUT 8
 #define ESC_IN 9
 
 
 Servo esc;
-struct boardInfo {
-  int battery;
-};
+
 
 struct CommandPacket {
   int speed;
   int signalPower; 
 };
+/* board & radio data as global */
+int boardData = 0;
+int radioData = 0;
 
-int power = 0;
-int voltage = 0;
-
-RF24 radio(RTADIO_IN,RTADIO_OUT);
+RF24 radio(RTADIO_IN,RADIO_OUT);
 
 void setup() {
   radio.begin();
