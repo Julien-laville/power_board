@@ -11,19 +11,20 @@
 
 #define RTADIO_IN 7
 #define RADIO_OUT 8
+#define SPEED_MASK 0x0000000f
+#define BATTERY_MASK 0x0000000f
+#define BATTERY_LED_0 4 
+#define BATTERY_LED_1 5
+#define BATTERY_LED_2 6
+#define BATTERY_LED_3 7
+#define ESC_IN 9
 
 #if ROLE == BOARD_TYPE
-  #define ESC_IN 9
-  #define SPEED_MASK 0x0000000f
   
   Servo esc;
 
 #else
-  #define BATTERY_MASK 0x0000000f
-  #define BATTERY_LED_0 4
-  #define BATTERY_LED_1 5
-  #define BATTERY_LED_2 6
-  #define BATTERY_LED_3 7
+
 #endif
 
 
@@ -67,9 +68,11 @@ void loop() {
     
     if(ROLE == BOARD_TYPE) {
       int speed = 0;
-      speed = &trainData
+      speed = &trainData && SPEED_MASK << 28;
       esc.write(speed);
     } else {
+      int battery = 0;
+      battery = &trainData && BATTERY_MASK << 28;
       showPower(battery);
     }
 
